@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Trigonometry</title>
+<script type="text/javascript">
+// <![CDATA[
+
+  function toDegrees(angrad) {
+    return angrad * 180.0 / Math.PI;
+  }
+
+  function toRadians(angdeg) {
+      return angdeg / 180.0 * Math.PI;
+  }
+  
+  function calc_side() {
+	var aside = document.getElementById("aside");
+	var bside = document.getElementById("bside");
+	var cside = document.getElementById("cside");
+	var alpha = document.getElementById("alpha");
+	var radians = toRadians(alpha.value);
+	if (aside.value!="") {
+		if (cside.value=="") {
+		  cside.value = aside.value / Math.sin(radians);
+		}
+	    if (bside.value=="") {
+	      bside.value = aside.value / Math.tan(radians);
+	    }
+    } else if (bside.value!="") {
+        if (cside.value=="") {
+        	cside.value = bside.value / Math.cos(radians);
+        }
+        if (aside.value=="") {
+        	aside.value = bside.value * Math.tan(radians); 
+        }
+    } else if (cside.value!="") {
+        if (aside.value=="") {
+          bside.value = cside.value * Math.cos(radians);
+        }
+        if (bside.value=="") {
+          aside.value = cside.value * Math.sin(radians);        	
+        }
+    }
+  }
+  
+  function calc_angle() {
+    var aside = document.getElementById("aside").value;
+    var bside = document.getElementById("bside").value;
+    var cside = document.getElementById("cside").value;
+    var alpha = document.getElementById("alpha");
+    if ((aside!="") && (bside!="")) {
+      alpha.value=toDegrees(Math.atan(aside / bside));
+    } else if ((aside!="") && (cside!="")) {
+      alpha.value=toDegrees(Math.asin(aside / cside));
+    } else if ((bside!="") && (cside!="")) {
+      alpha.value=toDegrees(Math.acos(bside / cside));
+    }
+  }
+
+  function calc() {
+	  var alpha = document.getElementById("alpha");
+	  if (alpha.value!="") {
+		calc_side();
+	  } else {
+	    calc_angle();
+      }
+  }
+  
+// ]]>
+</script>
+</head>
+<body>
+    <div>Calculate alpha angle or missing side with of a triangle</div>
+	<div id="div_aside">
+		A side: <input type="text" id="aside" />
+	</div>
+    <div id="div_aside">
+        B side: <input type="text" id="bside" />
+    </div>
+	<div id="div_bside">
+		C side: <input type="text" id="cside" />
+	</div>
+    <div id="div_bside">
+        Alpha (degrees): <input type="text" id="alpha" />
+    </div>
+	<div id="button">
+		<input type="button" value="calc" onclick="calc()" />
+	</div>
+</body>
+</html>
